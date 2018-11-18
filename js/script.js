@@ -34,15 +34,33 @@ FSJS project 2 - List Filter and Pagination
        that will be passed into the parens later when you call or 
        "invoke" the function 
 ***/
-
-
-
-
+function showPage(studentList, pageNum) {
+  let students = studentList.children;
+  let tenStudents = document.createElement('ul');
+  tenStudents.className = 'student-list';
+  if(pageNum === 1) { pageNum = 0;
+  } else { pageNum = pageNum * 10;
+  }
+  for(let i = pageNum; i < pageNum + 10 && i < students.length; i++) {
+    let student = document.createElement('li');
+    student = students[i].cloneNode(1);
+    tenStudents.appendChild(student);
+  }
+  document.getElementsByClassName('student-list')[0].parentNode.replaceChild(tenStudents, document.getElementsByClassName('student-list')[0]);
+}
+let originalStudentList = document.createElement('ul');
+originalStudentList = document.getElementsByClassName('student-list')[0].cloneNode(1);
+showPage(originalStudentList, 1);
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
+function appendPageLinks() {
+  //create page function
+  //function to add page to DOM
 
+
+}
 
 
 
