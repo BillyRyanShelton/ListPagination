@@ -41,26 +41,38 @@ function showPage(studentList, pageNum) {
   if(pageNum === 1) { pageNum = 0;
   } else { pageNum = pageNum * 10;
   }
-  for(let i = pageNum; i < pageNum + 10 && i < students.length; i++) {
+  for(let i = pageNum; i < pageNum + 10 && i < originalStudentList.children.length; i++) {
     let student = document.createElement('li');
-    student = students[i].cloneNode(1);
+    student = originalStudentList.children[i].cloneNode(1);
     tenStudents.appendChild(student);
   }
-  document.getElementsByClassName('student-list')[0].parentNode.replaceChild(tenStudents, document.getElementsByClassName('student-list')[0]);
+  studentList.parentNode.replaceChild(tenStudents, studentList);
 }
+
 let originalStudentList = document.createElement('ul');
 originalStudentList = document.getElementsByClassName('student-list')[0].cloneNode(1);
-showPage(originalStudentList, 1);
+showPage(document.getElementsByClassName('student-list')[0], 3);
+showPage(document.getElementsByClassName('student-list')[0], 4);
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
-function appendPageLinks() {
-  //create page function
-  //function to add page to DOM
+function appendPageLinks(studentList) {
+  let numPages = Math.floor(studentList.children.length/10);
+  console.log(numPages);
 
+  let paginationClass = document.createElement('div');
+  paginationClass.className = 'pagination';
+  document.getElementsByClassName('page')[0].appendChild(paginationClass);
 
+  for(let i = 0; i < numPages; i++) {
+  let ul = document.createElement('ul');
+  document.getElementsByClassName('pagination')[0].appendChild(ul);
+
+  }
 }
+
+appendPageLinks(originalStudentList);
 
 
 
