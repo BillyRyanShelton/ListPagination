@@ -65,9 +65,17 @@ function appendPageLinks(studentList) {
   paginationClass.className = 'pagination';
   document.getElementsByClassName('page')[0].appendChild(paginationClass);
 
-  for(let i = 0; i < numPages; i++) {
+
   let ul = document.createElement('ul');
   document.getElementsByClassName('pagination')[0].appendChild(ul);
+
+  for(let i = 1; i < numPages+1; i++) {
+  let a = document.createElement('a');
+  let li = document.createElement('li');
+  a.innerHTML = i;
+  ul.appendChild(li);
+  li.appendChild(a);
+  
 
   }
 }
