@@ -51,34 +51,60 @@ function showPage(studentList, pageNum) {
 
 let originalStudentList = document.createElement('ul');
 originalStudentList = document.getElementsByClassName('student-list')[0].cloneNode(1);
-showPage(document.getElementsByClassName('student-list')[0], 3);
-showPage(document.getElementsByClassName('student-list')[0], 4);
+showPage(document.getElementsByClassName('student-list')[0], 1);
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
 function appendPageLinks(studentList) {
   let numPages = Math.floor(studentList.children.length/10);
-  console.log(numPages);
 
   let paginationClass = document.createElement('div');
   paginationClass.className = 'pagination';
   document.getElementsByClassName('page')[0].appendChild(paginationClass);
 
-
   let ul = document.createElement('ul');
   document.getElementsByClassName('pagination')[0].appendChild(ul);
 
   for(let i = 1; i < numPages+1; i++) {
-  let a = document.createElement('a');
-  let li = document.createElement('li');
-  a.innerHTML = i;
-  ul.appendChild(li);
-  li.appendChild(a);
-  
-
+    let a = document.createElement('a');
+    let li = document.createElement('li');
+    a.innerHTML = i;
+    a.addEventListener('click', () => {
+      showPage(document.getElementsByClassName('student-list')[0], i);
+    });
+    ul.appendChild(li);
+    li.appendChild(a);
   }
 }
+
+function searchForm(studentList) {
+  let input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'student-search';
+
+  let students = document.createElement('ul');
+  students.className = 'student-list';
+
+  document.getElementsByClassName('page-header cf')[0].appendChild(input);
+
+  input.addEventListener('submit', (name) => {
+    for(let i = 0; i < originalStudentList.children.length; i++) {
+      if(name === originalStudentList.children[i].getElementsByTagName('h3')[0].innerText) {
+        let student = document.createElement('li');
+        student = originalStudentList.children[i].cloneNode(1);
+        students.appendChild(student);
+      }
+    }
+
+    studentList.parentNode.replaceChild(students, studentList);
+    name = '';
+  });
+}
+
+searchForm(document.getElementsByClassName('student-list')[0]);
+
+
 
 appendPageLinks(originalStudentList);
 
