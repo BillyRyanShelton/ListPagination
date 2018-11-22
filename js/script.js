@@ -109,7 +109,7 @@ function searchForm(studentList) {
   students.className = 'student-list';
 
   for(let i = 0; i < originalStudentList.children.length; i++) {
-    if(input.value === partOfString(input.value.length, originalStudentList.children[i].getElementsByTagName('h3')[0].innerText)) {
+    if((input.value === partOfString(input.value.length, originalStudentList.children[i].getElementsByTagName('h3')[0].innerText) || (input.value === partOfString(input.value.length, originalStudentList.children[i].getElementsByTagName('span')[0].innerText)))) {
       let student = document.createElement('li');
       student = originalStudentList.children[i].cloneNode(1);
       students.appendChild(student);
