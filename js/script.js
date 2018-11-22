@@ -17,7 +17,12 @@ FSJS project 2 - List Filter and Pagination
    scoped to that function.
 ***/
 
-
+function partOfString(length, string) {
+  let stringPart = '';
+  for(let i = 0; i < length; i++) {
+    stringPart += string[i];
+  } return stringPart;
+}
 
 
 /*** 
@@ -79,33 +84,48 @@ function appendPageLinks(studentList) {
 }
 
 function searchForm(studentList) {
+  let search = document.createElement('h4');
+  search.text = 'Search Form';
+  search.className = 'student-search';
+
   let input = document.createElement('input');
-  input.type = 'text';
+  input.type = 'form';
+  input.name = 'search';
   input.className = 'student-search';
+
+  let button = document.createElement('button');
+  button.type = 'submit';
+  button.innerText = 'Submit';
+  button.className = 'student-search';
 
   let students = document.createElement('ul');
   students.className = 'student-list';
-
+  document.getElementsByClassName('page-header cf')[0].appendChild(search);
   document.getElementsByClassName('page-header cf')[0].appendChild(input);
+  document.getElementsByClassName('page-header cf')[0].appendChild(button);
 
-  input.addEventListener('submit', (name) => {
+  input.addEventListener('keyup', () => {
     for(let i = 0; i < originalStudentList.children.length; i++) {
-      if(name === originalStudentList.children[i].getElementsByTagName('h3')[0].innerText) {
+      if(input.value === partOfString(input.value.length, originalStudentList.children[i].getElementsByTagName('h3')[0].innerText)) {
         let student = document.createElement('li');
         student = originalStudentList.children[i].cloneNode(1);
         students.appendChild(student);
-      }
+        console.log('something was appended');
+      } 
     }
 
+    // let student = document.createElement('li');
+    // students.appendChild(student);
+    // if(studentList.children.length === 0) {
+    //   studentList.appendChild(students);
+    // } else {
     studentList.parentNode.replaceChild(students, studentList);
-    name = '';
+    // }
+    //input.value = '';
   });
 }
 
 searchForm(document.getElementsByClassName('student-list')[0]);
-
-
-
 appendPageLinks(originalStudentList);
 
 
