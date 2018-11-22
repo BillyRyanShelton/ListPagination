@@ -98,30 +98,25 @@ function searchForm(studentList) {
   button.innerText = 'Submit';
   button.className = 'student-search';
 
-  let students = document.createElement('ul');
-  students.className = 'student-list';
+  // let students = document.createElement('ul');
+  // students.className = 'student-list';
   document.getElementsByClassName('page-header cf')[0].appendChild(search);
   document.getElementsByClassName('page-header cf')[0].appendChild(input);
   document.getElementsByClassName('page-header cf')[0].appendChild(button);
 
   input.addEventListener('keyup', () => {
-    for(let i = 0; i < originalStudentList.children.length; i++) {
-      if(input.value === partOfString(input.value.length, originalStudentList.children[i].getElementsByTagName('h3')[0].innerText)) {
-        let student = document.createElement('li');
-        student = originalStudentList.children[i].cloneNode(1);
-        students.appendChild(student);
-        console.log('something was appended');
-      } 
-    }
+  let students = document.createElement('ul');
+  students.className = 'student-list';
 
-    // let student = document.createElement('li');
-    // students.appendChild(student);
-    // if(studentList.children.length === 0) {
-    //   studentList.appendChild(students);
-    // } else {
-    studentList.parentNode.replaceChild(students, studentList);
-    // }
-    //input.value = '';
+  for(let i = 0; i < originalStudentList.children.length; i++) {
+    if(input.value === partOfString(input.value.length, originalStudentList.children[i].getElementsByTagName('h3')[0].innerText)) {
+      let student = document.createElement('li');
+      student = originalStudentList.children[i].cloneNode(1);
+      students.appendChild(student);
+    } 
+  } 
+
+  document.getElementsByClassName('student-list')[0].parentNode.replaceChild(students, document.getElementsByClassName('student-list')[0]);  
   });
 }
 
