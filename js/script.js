@@ -11,9 +11,9 @@ function partOfString(length, string) {
 }
 
 //creates an element and gives it a class name
-function createElemWithClass(name, ele, class){
+function createElemWithClass(name, ele, className){
   let name = document.createElement(ele);
-  name.className = class;
+  name.className = className;
 }
 
 
