@@ -1,22 +1,8 @@
 /******************************************
-Treehouse Techdegree:
-FSJS project 2 - List Filter and Pagination
+ List Filter and Pagination
 ******************************************/
    
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
-
-
-/*** 
-   Add your global variables that store the DOM elements you will 
-   need to reference and/or manipulate. 
-   
-   But be mindful of which variables should be global and which 
-   should be locally scoped to one of the two main functions you're 
-   going to create. A good general rule of thumb is if the variable 
-   will only be used inside of a function, then it can be locally 
-   scoped to that function.
-***/
-
+//given a string, only as many characters as the length are returned
 function partOfString(length, string) {
   let stringPart = '';
   for(let i = 0; i < length; i++) {
@@ -24,25 +10,20 @@ function partOfString(length, string) {
   } return stringPart;
 }
 
+//creates an element and gives it a class name
+function createElemWithClass(name, ele, class){
+  let name = document.createElement(ele);
+  name.className = class;
+}
 
-/*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
 
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
-***/
 function showPage(studentList, pageNum) {
   let students = studentList.children;
+
+  ///duplicate create elem and classname
   let tenStudents = document.createElement('ul');
   tenStudents.className = 'student-list';
+
   if(pageNum === 1) { pageNum = 0;
   } else { pageNum = pageNum * 10;
   }
@@ -54,18 +35,17 @@ function showPage(studentList, pageNum) {
   studentList.parentNode.replaceChild(tenStudents, studentList);
 }
 
-let originalStudentList = document.createElement('ul');
-originalStudentList = document.getElementsByClassName('student-list')[0].cloneNode(1);
-showPage(document.getElementsByClassName('student-list')[0], 1);
-/*** 
-   Create the `appendPageLinks function` to generate, append, and add 
-   functionality to the pagination buttons.
-***/
+
 function appendPageLinks(studentList) {
   let numPages = Math.floor(studentList.children.length/10);
 
+  //duplicate create elem and classname
   let paginationClass = document.createElement('div');
   paginationClass.className = 'pagination';
+
+  if(document.getElementsByClassName('page')[0].children[2] != null) { 
+    document.getElementsByClassName('page')[0].removeChild(document.getElementsByClassName('page')[0].children[2]); 
+  }
   document.getElementsByClassName('page')[0].appendChild(paginationClass);
 
   let ul = document.createElement('ul');
@@ -83,47 +63,67 @@ function appendPageLinks(studentList) {
   }
 }
 
-function searchForm(studentList) {
-  let search = document.createElement('h4');
-  search.text = 'Search Form';
-  search.className = 'student-search';
+function searchForm(){
+  //duplicate create elem and classname
+  // let search = document.createElement('h4');
+  // search.className = 'student-search';
 
+  // search.text = 'Search Form';
+  
+  //duplicate create elem and classname
   let input = document.createElement('input');
-  input.type = 'form';
-  input.name = 'search';
   input.className = 'student-search';
 
+  input.type = 'form';
+  input.name = 'search';
+
+  //duplicate create elem and classname
   let button = document.createElement('button');
-  button.type = 'submit';
-  button.innerText = 'Submit';
   button.className = 'student-search';
 
-  // let students = document.createElement('ul');
-  // students.className = 'student-list';
-  document.getElementsByClassName('page-header cf')[0].appendChild(search);
+  button.type = 'submit';
+  button.innerText = 'Submit';
+
+  //document.getElementsByClassName('page-header cf')[0].appendChild(search);
   document.getElementsByClassName('page-header cf')[0].appendChild(input);
   document.getElementsByClassName('page-header cf')[0].appendChild(button);
 
-  input.addEventListener('keyup', () => {
-  let students = document.createElement('ul');
-  students.className = 'student-list';
+  function appendDOM(input) {
+    let students = document.createElement('ul');
+    students.className = 'student-list';
 
-  for(let i = 0; i < originalStudentList.children.length; i++) {
-    if((input.value === partOfString(input.value.length, originalStudentList.children[i].getElementsByTagName('h3')[0].innerText) || (input.value === partOfString(input.value.length, originalStudentList.children[i].getElementsByTagName('span')[0].innerText)))) {
-      let student = document.createElement('li');
-      student = originalStudentList.children[i].cloneNode(1);
-      students.appendChild(student);
+    for(let i = 0; i < originalStudentList.children.length; i++) {
+      //if the user erases their entry, the first 10 students are shown and page links from the original starting list
+      if(input.value === '') {
+        showPage(document.getElementsByClassName('student-list')[0], 1);
+        appendPageLinks(originalStudentList);
+        return;
+      }  //any typed input with the same name or email is appeneded to the DOM
+      else if((input.value === partOfString(input.value.length, originalStudentList.children[i].getElementsByTagName('h3')[0].innerText) || (input.value === partOfString(input.value.length, originalStudentList.children[i].getElementsByTagName('span')[0].innerText)))) {
+        let student = document.createElement('li');
+        student = originalStudentList.children[i].cloneNode(1);
+        students.appendChild(student);
+      } 
     } 
-  } 
 
-  document.getElementsByClassName('student-list')[0].parentNode.replaceChild(students, document.getElementsByClassName('student-list')[0]);  
-  });
+    document.getElementsByClassName('student-list')[0].parentNode.replaceChild(students, document.getElementsByClassName('student-list')[0]); 
+    appendPageLinks(document.getElementsByClassName('student-list')[0]); 
+  }
+
+  input.addEventListener('keyup', function() { appendDOM(input) });
+  button.addEventListener('click', function() { appendDOM(input)});
 }
 
-searchForm(document.getElementsByClassName('student-list')[0]);
+//a copy of the original student list is created
+let originalStudentList = document.createElement('ul');
+originalStudentList = document.getElementsByClassName('student-list')[0].cloneNode(1);
+
+//only the first 10 students of the original list are dynamically appended to DOM
+showPage(document.getElementsByClassName('student-list')[0], 1);
+
+//page links are created for the original list of students
 appendPageLinks(originalStudentList);
 
+//the DOM is altered based on what the user enters into the search field
+searchForm();
 
-
-
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
