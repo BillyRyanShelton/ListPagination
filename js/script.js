@@ -39,11 +39,6 @@ function appendPageLinks(studentList) {
   let paginationClass = document.createElement('div');
   paginationClass.className = 'pagination';
 
-  //if there are already page links, the page links are removed because the number of students on the page may have changed
-  if(document.getElementsByClassName('page')[0].children[2] != null) { 
-    document.getElementsByClassName('page')[0].removeChild(document.getElementsByClassName('page')[0].children[2]); 
-  }
-
   document.getElementsByClassName('page')[0].appendChild(paginationClass);
   let ul = document.createElement('ul');
   document.getElementsByClassName('pagination')[0].appendChild(ul);
@@ -94,15 +89,24 @@ function searchForm(){
         students.appendChild(student);
       } 
     } 
+    //if no results are found, the page displays no results found
+    if(students.children.length === 0 ) {
+      let student = document.createElement('li');
+      student.innerText = 'No Results Found';
+      students.appendChild(student);
+    }
     document.getElementsByClassName('student-list')[0].parentNode.replaceChild(students, document.getElementsByClassName('student-list')[0]); 
 
-    //page links are updated according to the new students shwon on the page
-    appendPageLinks(document.getElementsByClassName('student-list')[0]); 
+    //if there are already page links, the page links are removed because the number of students on the page may have changed
+    if(document.getElementsByClassName('page')[0].children[2] != null) { 
+      document.getElementsByClassName('page')[0].removeChild(document.getElementsByClassName('page')[0].children[2]); 
+    }
   }
+
   //as the user types the page is updated with matching students
   input.addEventListener('keyup', function() { appendDOM(input) });
   //when the user clicks submit the page is updated with matching students
-  button.addEventListener('click', function() { appendDOM(input)});
+  button.addEventListener('click', function() { appendDOM(input) });
 }
 
 //a copy of the original student list is created
