@@ -10,17 +10,9 @@ function partOfString(length, string) {
   } return stringPart;
 }
 
-//creates an element and gives it a class name
-function createElemWithClass(name, ele, className){
-  let name = document.createElement(ele);
-  name.className = className;
-}
-
-
 function showPage(studentList, pageNum) {
   let students = studentList.children;
 
-  ///duplicate create elem and classname
   let tenStudents = document.createElement('ul');
   tenStudents.className = 'student-list';
 
@@ -64,27 +56,16 @@ function appendPageLinks(studentList) {
 }
 
 function searchForm(){
-  //duplicate create elem and classname
-  // let search = document.createElement('h4');
-  // search.className = 'student-search';
-
-  // search.text = 'Search Form';
-  
-  //duplicate create elem and classname
   let input = document.createElement('input');
   input.className = 'student-search';
-
   input.type = 'form';
   input.name = 'search';
 
-  //duplicate create elem and classname
   let button = document.createElement('button');
   button.className = 'student-search';
-
   button.type = 'submit';
   button.innerText = 'Submit';
 
-  //document.getElementsByClassName('page-header cf')[0].appendChild(search);
   document.getElementsByClassName('page-header cf')[0].appendChild(input);
   document.getElementsByClassName('page-header cf')[0].appendChild(button);
 
