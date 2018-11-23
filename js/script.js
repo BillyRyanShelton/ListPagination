@@ -2,7 +2,7 @@
  List Filter and Pagination
 ******************************************/
    
-//given a string, only as many characters as the length are returned(from left to right of string)
+//given a string, only as many characters as the length are returned
 function partOfString(length, string) {
   let stringPart = '';
   for(let i = 0; i < length; i++) {
@@ -10,43 +10,39 @@ function partOfString(length, string) {
   } return stringPart;
 }
 
-//given a list of students and a page number, only 10 students are shown at a time according to the page number given
 function showPage(studentList, pageNum) {
   let students = studentList.children;
 
-  //a ul to hold the 10 students is created
   let tenStudents = document.createElement('ul');
   tenStudents.className = 'student-list';
 
-  //based on the page number given, only the appropriate students to that page number are appended to the DOM
   if(pageNum === 1) { pageNum = 0;
   } else { pageNum = pageNum * 10;
-  } 
-  //each student in the correct page is added to 10 student list
+  }
   for(let i = pageNum; i < pageNum + 10 && i < originalStudentList.children.length; i++) {
     let student = document.createElement('li');
     student = originalStudentList.children[i].cloneNode(1);
     tenStudents.appendChild(student);
-  } //the 10 student list is appended to the DOM
+  }
   studentList.parentNode.replaceChild(tenStudents, studentList);
 }
 
-//based on a student list, page links are created for every 10 students and displayed when the links are clicked
+
 function appendPageLinks(studentList) {
   let numPages = Math.floor(studentList.children.length/10);
+
+  //duplicate create elem and classname
   let paginationClass = document.createElement('div');
   paginationClass.className = 'pagination';
 
-  //if there are already page links, the page links are removed because the number of students on the page may have changed
   if(document.getElementsByClassName('page')[0].children[2] != null) { 
     document.getElementsByClassName('page')[0].removeChild(document.getElementsByClassName('page')[0].children[2]); 
   }
-
   document.getElementsByClassName('page')[0].appendChild(paginationClass);
+
   let ul = document.createElement('ul');
   document.getElementsByClassName('pagination')[0].appendChild(ul);
 
-  //if the user clicks a page link, the 10 students to that page are displayed
   for(let i = 1; i < numPages+1; i++) {
     let a = document.createElement('a');
     let li = document.createElement('li');
@@ -59,7 +55,6 @@ function appendPageLinks(studentList) {
   }
 }
 
-//a search box is added to the DOM and searches are returned the page
 function searchForm(){
   let input = document.createElement('input');
   input.className = 'student-search';
@@ -74,32 +69,29 @@ function searchForm(){
   document.getElementsByClassName('page-header cf')[0].appendChild(input);
   document.getElementsByClassName('page-header cf')[0].appendChild(button);
 
-  //students with a name or email matching the user input are displayed on the page
   function appendDOM(input) {
     let students = document.createElement('ul');
     students.className = 'student-list';
 
     for(let i = 0; i < originalStudentList.children.length; i++) {
-      //if the user erases their entry, the first 10 students are shown and page links from the original starting list are displayed
+      //if the user erases their entry, the first 10 students are shown and page links from the original starting list
       if(input.value === '') {
         showPage(document.getElementsByClassName('student-list')[0], 1);
         appendPageLinks(originalStudentList);
         return;
-      }  //any input with the same name or email is appeneded to the DOM
+      }  //any typed input with the same name or email is appeneded to the DOM
       else if((input.value === partOfString(input.value.length, originalStudentList.children[i].getElementsByTagName('h3')[0].innerText) || (input.value === partOfString(input.value.length, originalStudentList.children[i].getElementsByTagName('span')[0].innerText)))) {
         let student = document.createElement('li');
         student = originalStudentList.children[i].cloneNode(1);
         students.appendChild(student);
       } 
     } 
-    document.getElementsByClassName('student-list')[0].parentNode.replaceChild(students, document.getElementsByClassName('student-list')[0]); 
 
-    //page links are updated according to the new students shwon on the page
+    document.getElementsByClassName('student-list')[0].parentNode.replaceChild(students, document.getElementsByClassName('student-list')[0]); 
     appendPageLinks(document.getElementsByClassName('student-list')[0]); 
   }
-  //as the user types the page is updated with matching students
+
   input.addEventListener('keyup', function() { appendDOM(input) });
-  //when the user clicks submit the page is updated with matching students
   button.addEventListener('click', function() { appendDOM(input)});
 }
 
