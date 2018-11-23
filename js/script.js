@@ -1,5 +1,7 @@
 /******************************************
  List Filter and Pagination
+ By: Billy Shelton
+ Date: 11/23/2018
 ******************************************/
    
 //given a string, only as many characters as the length are returned(from left to right of string)
